@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-install.packages("mice")
+#install.packages("mice")
 ```
 
 ```{r}
@@ -39,7 +39,7 @@ no <- subset(df, SUBSCRIBE == "N")
 na <- subset(df, is.na(df$SUBSCRIBE))
 
 #select the column for trainset
-DA <- select(df, -Record, -Disc, -Title, -LastOrder, -Weeks3Meals, Sample)
+DA <- select(df, -Record, -Disc, -Title, -LastOrder, -Weeks3Meals)
 ```
 
 ```{r}
@@ -49,7 +49,7 @@ woutSUB <- select(DA, -SUBSCRIBE)
 naIncome <- subset(woutSUB, is.na(woutSUB$DA_Income))
 
 #use mice to impute the missing value
-tempdata <- mice(woutSUB, seed = 500)
+#tempdata <- mice(woutSUB, seed = 500)
 #create five different dataset from MICE method
 completeMice1 <- complete(tempdata, 1)
 completeMice2 <- complete(tempdata, 2)
@@ -73,6 +73,7 @@ completeMice5 <- merge(completeMice5, DA[, c("custid", "SUBSCRIBE")], by="custid
 #split
 test1 <- completeMice1[rowSums(is.na(completeMice1)) > 0,]
 train1 <- completeMice1[rowSums(is.na(completeMice1)) == 0,]
+train1 <- select(train1, -Sample)
 ```
 
 ```{r}

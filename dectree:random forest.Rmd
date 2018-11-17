@@ -9,22 +9,93 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+random forest
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r}
+#5-fold cross validation
+k = 5
+n = floor(nrow(train1)/k) #size of each fold
+acc <- rep(NA, k) #store the accuracy here.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+  
+for (i in 1:k) {
+  s1 <- ((i - 1) * n + 1) #the start of the subset.
+  s2 <- (i * n) #the end of the subset.
+  subset <- s1:s2 #the range of subset.
+  
+  cvTrain <- train1[-subset, ]
+  cvTest <- train1[subset, ]
+  cvTestX <- select(cvTest, -SUBSCRIBE)
+  ActualRF <- cvTest$SUBSCRIBE
+  
+  set.seed(1234)
+  RF <- randomForest(SUBSCRIBE ~ ., data = train1, importance = TRUE, ntree = 1000)
+  RFPred <- predict(RF, cvTestX, type = "class")
+  acc[i] <- sum(RFPred == cvTest[, "SUBSCRIBE"])/nrow(cvTest)
+  print(paste("The accuracy for fold", i, "is", acc[i], "."))
+}
 ```
 
-## Including Plots
+```{r}
+#the mean accuracy for 5-fold random forest method.
+paste("The mean accuracy for 5-fold random forest method is", round(mean(acc), 4), ".")
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+#the estimate of the loss for 5-fold random forest method.
+paste("The estimate of the loss for 5-fold random forest method is", round(1 - mean(acc), 4), ".")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+dectree
+
+```{r}
+#5-fold cross validation
+k = 5
+n = floor(nrow(train1)/k) #size of each fold
+acc1 <- rep(NA, k) #store the accuracy here.
+
+  
+for (i in 1:k) {
+  s1 <- ((i - 1) * n + 1) #the start of the subset.
+  s2 <- (i * n) #the end of the subset.
+  subset <- s1:s2 #the range of subset.
+  
+  cvTrain <- train1[-subset, ]
+  cvTest <- train1[subset, ]
+  cvTestX <- select(cvTest, -SUBSCRIBE)
+  ActualDT <- cvTest$SUBSCRIBE
+  
+  DT <- rpart(SUBSCRIBE ~ ., data = cvTrain)
+  DTPred <- predict(DT, cvTestX, type = "class")
+  acc1[i] <- sum(DTPred == cvTest[, "SUBSCRIBE"])/nrow(cvTest)
+  print(paste("The accuracy for fold", i, "is", acc1[i], "."))
+}
+```
+
+```{r}
+#the mean accuracy for 5-fold random forest method.
+paste("The mean accuracy for 5-fold decision tree method is", round(mean(acc1), 4), ".")
+
+#the estimate of the loss for 5-fold random forest method.
+paste("The estimate of the loss for 5-fold decision tree method is", round(1 - mean(acc1), 4), ".")
+```
+
+```{r}
+set.seed(1234)
+train1x <- select(train1, -custid)
+RF <- randomForest(SUBSCRIBE ~ ., data = train1x, importance = TRUE, ntree = 1000)
+
+test1x <- select(test1, -custid, -Sample, -SUBSCRIBE)
+#prediction to the test set
+test1$Score <- predict(RF, test1x, type = "class")
+result <- select(test1, custid, Score)
+rownames(result) <- NULL
+write.csv(result, file="team5.csv") 
+```
+
+```{r}
+test1$Score <- predict(DT, test1x, type = "class")
+result <- select(test1, custid, Score)
+rownames(result) <- NULL
+write.csv(result, file="team5.csv") 
+```
+
+
