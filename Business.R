@@ -56,12 +56,25 @@ newMice4<-merge(completeMice4, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 newMice5<-merge(completeMice5, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 
 #seperate test set from training set 
-test_df <- newMice1[rowSums(is.na(newMice1)) > 0,]
-train_df <- newMice1[rowSums(is.na(newMice1)) == 0,]
+test_df1 <- newMice1[rowSums(is.na(newMice1)) > 0,]
+train_df1 <- newMice1[rowSums(is.na(newMice1)) == 0,]
+
+test_df2 <- newMice2[rowSums(is.na(newMice1)) > 0,]
+train_df2 <- newMice2[rowSums(is.na(newMice1)) == 0,]
+
+test_df3 <- newMice3[rowSums(is.na(newMice1)) > 0,]
+train_df3 <- newMice3[rowSums(is.na(newMice1)) == 0,]
+
+test_df4 <- newMice4[rowSums(is.na(newMice1)) > 0,]
+train_df4 <- newMice4[rowSums(is.na(newMice1)) == 0,]
+
+test_df5 <- newMice5[rowSums(is.na(newMice1)) > 0,]
+train_df5 <- newMice5[rowSums(is.na(newMice1)) == 0,]
+
 
 #Continous data ggpairs
-ggpairs(dataset, columns = c(2:5, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
-ggpairs(dataset, columns = c(6:9, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
-ggpairs(dataset, columns = c(10:12, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df1, columns = c(2:5, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df1, columns = c(6:9, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df1, columns = c(10:12, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 
 
