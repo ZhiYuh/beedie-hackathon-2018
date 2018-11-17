@@ -70,8 +70,27 @@ completeMice5 <- merge(completeMice5, DA[, c("custid", "SUBSCRIBE")], by="custid
 ```
 
 ```{r}
-ggpairs(completeMice0, columns = c(2:6, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
-ggpairs(completeMice0, columns = c(7:10, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
-ggpairs(completeMice0, columns = c(11:14, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+#split
+test1 <- completeMice1[rowSums(is.na(completeMice1)) > 0,]
+train1 <- completeMice1[rowSums(is.na(completeMice1)) == 0,]
 ```
 
+```{r}
+ggpairs(train1, columns = c(2:6, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train1, columns = c(7:10, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train1, columns = c(11:14, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+```
+
+```{r}
+train1Con <- select(train1, -SUBSCRIBE, -Sample)
+#test for linear association - pearson
+M1 <- cor(train1Con, method = "pearson")
+corrplot(M1, method = "color")
+a <- corrplot(M1, method = "number")
+```
+
+```{r}
+#test for non-linear association - spearman
+M2 <- cor(train1Con, method = "spearman")
+corrplot(M2, method = "color")
+```
