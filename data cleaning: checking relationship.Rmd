@@ -9,22 +9,58 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+install.packages("mice")
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+require(ggplot2)
+require(class)
+require(rpart)
+require(randomForest)
+require(dplyr)
+require(rpart.plot)
+require(reshape)
+require(tidyr)
+require(GGally)
+require(caret)
+require(corrplot)
+require(glmnet)
+require(mice)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+df <- read.csv("NewData.csv")
+
+yes <- subset(df, SUBSCRIBE == "Y")
+
+no <- subset(df, SUBSCRIBE == "N")
+
+na <- subset(df, is.na(df$SUBSCRIBE))
+
+#select the column for trainset
+DA <- select(df, -Record, -custid, -Disc, -Title, -LastOrder, -Weeks3Meals, Sample)
+```
+
+```{r}
+#get rid of SUBSCRIBE first.
+woutSUB <- select(DA, -SUBSCRIBE) 
+
+naIncome <- subset(woutSUB, is.na(woutSUB$DA_Income))
+
+#use mice to impute the missing value
+tempdata <- mice(woutSUB)
+#create five different dataset from MICE method
+completeMice1 <- complete(tempdata, 1)
+completeMice2 <- complete(tempdata, 2)
+completeMice3 <- complete(tempdata, 3)
+completeMice4 <- complete(tempdata, 4)
+completeMice5 <- complete(tempdata, 5)
+```
+
+```{r}
+ggpairs(df, columns = c(2:5, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(df, columns = c(6:9, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(df, columns = c(10:12, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+```
+
