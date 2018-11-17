@@ -59,6 +59,14 @@ completeMice5 <- complete(tempdata, 5)
 
 #get rid of NA without imputation
 completeMice0 <- woutSUB[!is.na(woutSUB$DA_Income), ]
+
+#merge the 6 different datasets
+completeMice0 <- merge(completeMice0, DA[, c("custid", "SUBSCRIBE")], by="custid")
+completeMice1 <- merge(completeMice1, DA[, c("custid", "SUBSCRIBE")], by="custid")
+completeMice2 <- merge(completeMice2, DA[, c("custid", "SUBSCRIBE")], by="custid")
+completeMice3 <- merge(completeMice3, DA[, c("custid", "SUBSCRIBE")], by="custid")
+completeMice4 <- merge(completeMice4, DA[, c("custid", "SUBSCRIBE")], by="custid")
+completeMice5 <- merge(completeMice5, DA[, c("custid", "SUBSCRIBE")], by="custid")
 ```
 ```{r}
 merge()
