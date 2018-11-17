@@ -73,8 +73,29 @@ train_df5 <- newMice5[rowSums(is.na(newMice1)) == 0,]
 
 
 #Continous data ggpairs
+#for mice train data1 
 ggpairs(train_df1, columns = c(2:5, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 ggpairs(train_df1, columns = c(6:9, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 ggpairs(train_df1, columns = c(10:12, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 
+#for mice train data2 
+ggpairs(train_df2, columns = c(2:5, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df2, columns = c(6:9, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df2, columns = c(10:12, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+
+#for mice train data3 
+ggpairs(train_df3, columns = c(2:5, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df3, columns = c(6:9, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df3, columns = c(10:12, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+
+#for mice train data4 
+ggpairs(train_df4, columns = c(2:5, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df4, columns = c(6:9, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df4, columns = c(10:12, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+
+
+#for mice train data5 
+ggpairs(train_df5, columns = c(2:5, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df5, columns = c(6:9, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(train_df5, columns = c(10:12, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 
