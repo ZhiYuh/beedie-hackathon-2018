@@ -48,15 +48,18 @@ completeMice3 <- complete(tempdata, 3)
 completeMice4 <- complete(tempdata, 4)
 completeMice5 <- complete(tempdata, 5)
 
-
+#adding subscribe back to the mice data 
 newMice1<-merge(completeMice1, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 newMice2<-merge(completeMice2, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 newMice3<-merge(completeMice3, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 newMice4<-merge(completeMice4, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 newMice5<-merge(completeMice5, dataset[, c("custid", "SUBSCRIBE")], by="custid")
 
-#Continous data ggpairs
+#seperate test set from training set 
+test_df <- newMice1[rowSums(is.na(newMice1)) > 0,]
+train_df <- newMice1[rowSums(is.na(newMice1)) == 0,]
 
+#Continous data ggpairs
 ggpairs(dataset, columns = c(2:5, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 ggpairs(dataset, columns = c(6:9, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 ggpairs(dataset, columns = c(10:12, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
