@@ -28,6 +28,7 @@ for (i in 1:k) {
   
   LogReg <- glm(cannabisUse ~ ., family = binomial(link = 'logit'), data = train)
   DTPred <- predict(LogReg, cvTestX, type = "response")
+  DTPred <- ifelse(DTPred > 0.5, "high", "low")
   acc[i] <- sum(DTPred == cvTest[, "cannabisUse"])/nrow(cvTest)
   print(paste("The accuracy for fold", i, "is", acc[i], "."))
 }
