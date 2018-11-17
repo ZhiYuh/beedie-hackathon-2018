@@ -68,13 +68,10 @@ completeMice3 <- merge(completeMice3, DA[, c("custid", "SUBSCRIBE")], by="custid
 completeMice4 <- merge(completeMice4, DA[, c("custid", "SUBSCRIBE")], by="custid")
 completeMice5 <- merge(completeMice5, DA[, c("custid", "SUBSCRIBE")], by="custid")
 ```
-```{r}
-merge()
-```
 
 ```{r}
-ggpairs(df, columns = c(2:5, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
-ggpairs(df, columns = c(6:9, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
-ggpairs(df, columns = c(10:12, 1), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(completeMice0, columns = c(2:6, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(completeMice0, columns = c(7:10, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
+ggpairs(completeMice0, columns = c(11:14, 15), mapping = aes(color = SUBSCRIBE), lower=list(combo=wrap("facethist", binwidth=0.5)), progress = FALSE)
 ```
 
